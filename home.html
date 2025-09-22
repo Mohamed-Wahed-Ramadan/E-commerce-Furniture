@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,139 +7,68 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23C5E4DF;stop-opacity:1' /><stop offset='100%25' style='stop-color:%23F5F9F8;stop-opacity:1' /></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23grad)'/><text x='50' y='60' font-family='Arial' font-size='30' fill='%2319183B' text-anchor='middle'>🛋️</text></svg>">
     <link rel="stylesheet" href="./css/main.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="css/font-awesome.min.css"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Logo and Brand -->
-            <div class="nav-left">
-                <a href="#" class="logo-link">
-                    <div class="logo">
-                        <i class="fas fa-couch"></i>
-                    </div>
-                    <span class="brand-name">FurniStore</span>
-                </a>
-            </div>
+    <nav>
+        <div>
+            <a href="./home.html"><i class="fas fa-couch"></i> </a>
+            <span class="logo">FurniStore</span>
+        </div>
+        <div class="user">
+            <input type="checkbox" id="user">
+            <label for="user" id="user-name">User</label>
+        <div class="user-list">
+            <ul>
+                <li><a href="./cart.html ">Go to Cart</a></li><hr>
+                <li><a href="./discount .html">Go to Discount</a></li><hr>
+                <li><button>Logout</button></li>
+            </ul>
+        </div>
+        </div>
+        
 
-            <!-- User Info and Cart -->
-            <div class="nav-center">
-                <!-- User Dropdown -->
-                <div class="user-dropdown">
-                    <button class="user-btn" id="userBtn">
-                        <i class="fas fa-user"></i>
-                        <span class="username">أحمد محمد</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="user-menu" id="userMenu">
-                        <a href="#" class="user-menu-item">
-                            <i class="fas fa-shopping-cart"></i>
-                            الذهاب للسلة
-                        </a>
-                        <a href="#" class="user-menu-item">
-                            <i class="fas fa-box"></i>
-                            طلباتي
-                        </a>
-                        <a href="#" class="user-menu-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            تسجيل الخروج
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Cart -->
-                <div class="cart-container">
-                    <button class="cart-btn" id="cartBtn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count" id="cartCount">3</span>
-                    </button>
-                    
-                    <!-- Cart Dropdown -->
-                    <div class="cart-dropdown" id="cartDropdown">
-                        <div class="cart-header">
-                            <h3>سلة التسوق</h3>
-                        </div>
-                        <div class="cart-items" id="cartItems">
-                            <div class="cart-item">
-                                <div class="item-info">
-                                    <h4>كرسي مكتبي</h4>
-                                    <p class="item-price">$150</p>
-                                </div>
-                                <div class="item-controls">
-                                    <button class="qty-btn minus">-</button>
-                                    <span class="qty">2</span>
-                                    <button class="qty-btn plus">+</button>
-                                    <button class="remove-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="cart-item">
-                                <div class="item-info">
-                                    <h4>طاولة خشبية</h4>
-                                    <p class="item-price">$300</p>
-                                </div>
-                                <div class="item-controls">
-                                    <button class="qty-btn minus">-</button>
-                                    <span class="qty">1</span>
-                                    <button class="qty-btn plus">+</button>
-                                    <button class="remove-btn">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cart-footer">
-                            <div class="total-price">
-                                الإجمالي: $<span id="totalPrice">600</span>
-                            </div>
-                            <button class="checkout-btn">الذهاب للسلة</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories -->
-            <div class="nav-right">
-                <ul class="nav-categories" id="navCategories">
-                    <li><a href="#">Living Room</a></li>
-                    <li><a href="#">Bedrooms</a></li>
-                    <li><a href="#">Chairs</a></li>
-                    <li><a href="#">Corner Sets</a></li>
-                    <li><a href="#">Tables</a></li>
+        <div class="cart">
+            <input type="checkbox" id="cart">
+            <label for="cart" ><i class="fas fa-cart-shopping"></i></label>
+            <span class="cart-item">0</span>
+            <div class="cart-list">
+                <ul>
+                    <li></li>
+                    <!-- <li><a href="#">Corner Sofa</a></li> <hr> -->
+                    <!-- <li><a href="#">Bedrooms</a></li><hr>
+                    <li><a href="#">Chairs</a></li> -->
                 </ul>
             </div>
-
-            <!-- Dark Mode Toggle -->
-            <div class="theme-toggle">
-                <button class="theme-btn" id="themeBtn">
-                    <i class="fas fa-moon" id="themeIcon"></i>
-                </button>
+        </div>
+        <ul class="ul-cat">
+            <li><a href="#">Corner Sofa</a></li> 
+            <li><a href="#">Bedrooms</a></li>
+            <li><a href="#">Chairs</a></li>
+        </ul>
+        <span class="barkmode"><i class="fas fa-moon"></i></span>
+        <!-- /////////////////////////////// -->
+        <div class="setting">
+            <input type="checkbox" id="sett">
+            <label for="sett" >
+            <div class="burger">
+                <span class="burger-layer span1"></span>
+                <span class="burger-layer span2"></span>
+                <span class="burger-layer span3"></span>
             </div>
-
-            <!-- Mobile Menu Toggle -->
-            <div class="mobile-menu-toggle">
-                <button class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+            </label>
+            <div class="sett-list">
+                <ul>
+                    <li><a href="#">Corner Sofa</a></li> <hr>
+                    <li><a href="#">Bedrooms</a></li><hr>
+                    <li><a href="#">Chairs</a></li>
+                </ul>
             </div>
         </div>
-
-        <!-- Mobile Menu -->
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="mobile-categories">
-                <a href="#" class="mobile-category">Living Room</a>
-                <a href="#" class="mobile-category">Bedrooms</a>
-                <a href="#" class="mobile-category">Chairs</a>
-                <a href="#" class="mobile-category">Corner Sets</a>
-                <a href="#" class="mobile-category">Tables</a>
-            </div>
-        </div>
+        <!-- /////////////////////// -->
+         
     </nav>
-
     
     <script src="./js/main.js"></script>
 </body>

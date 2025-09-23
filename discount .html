@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FurniStore</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23C5E4DF;stop-opacity:1' /><stop offset='100%25' style='stop-color:%23F5F9F8;stop-opacity:1' /></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23grad)'/><text x='50' y='60' font-family='Arial' font-size='30' fill='%2319183B' text-anchor='middle'>🛋️</text></svg>">
-    <link rel="stylesheet" href="./css/main.css">
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23C5E4DF;stop-opacity:1' /><stop offset='100%25' style='stop-color:%23F5F9F8;stop-opacity:1' /></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23grad)'/><text x='50' y='60' font-family='Arial' font-size='30' fill='%2319183B' text-anchor='middle'>🛋️</text></svg>"
+    />
+    <link rel="stylesheet" href="./css/discount .css" />
+    <link rel="stylesheet" href="./css/main.css" />
     <!-- <link rel="stylesheet" href="css/font-awesome.min.css"> -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
-<body>
-    <nav>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+     <nav>
         <div>
             <a href="./home.html"><i class="fas fa-couch"></i> </a>
             <span class="logo">FurniStore</span>
@@ -24,7 +32,6 @@
                 <li><a href="./cart.html ">Go to Cart</a></li><hr>
                 <li><a href="./discount .html">Go to Discount</a></li><hr>
                 <li><button id="logout" onclick="logout()">Logout</button></li>
-
             </ul>
         </div>
         </div>
@@ -37,12 +44,11 @@
             <div class="cart-list">
                 <ul>
                     <li></li>
-                    <!-- <li><a href="#">Corner Sofa</a></li> <hr> -->
-                    <!-- <li><a href="#">Bedrooms</a></li><hr>
-                    <li><a href="#">Chairs</a></li> -->
+
                 </ul>
             </div>
         </div>
+        <span></span>
         <!-- <ul class="ul-cat">
             <li><a href="#">Corner Sofa</a></li> 
             <li><a href="#">Bedrooms</a></li>
@@ -51,6 +57,7 @@
         <span class="barkmode"><i class="fas fa-moon"></i></span>
         <!-- /////////////////////////////// -->
         <!-- <div class="setting">
+        <div class="setting">
             <input type="checkbox" id="sett">
             <label for="sett" >
             <div class="burger">
@@ -68,9 +75,20 @@
             </div>
         </div> -->
         <!-- /////////////////////// -->
+        </div>
          
-    </nav>
-    
+    </nav> 
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="cards-container" id="cards-container">
+     
+     
+    </div>
+
+    <script src="./js/discount .js"></script>
     <script src="./js/main.js"></script>
-</body>
+  </body>
 </html>

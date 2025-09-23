@@ -231,21 +231,34 @@ function addToCart(productId) {
 }
 
 // Show product details
+// function showProductDetails(productId) {
+//     const product = products.find(p => p.id === productId);
+//     if (!product) {
+//         console.error('Product not found:', productId);
+//         return;
+//     }
+    
+//     // Save product details for detailed view
+//     localStorage.setItem('selectedProduct', JSON.stringify(product));
+    
+//     // For now, show alert with details (you can replace with modal or slide)
+//     const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
+//     const discountText = product.discount_percentage > 0 ? `\nDiscount: ${product.discount_percentage}%\nOriginal Price: ${product.price} L.E` : '';
+    
+//     alert(`Product Details:\n\nName: ${product.name}\nCategory: ${product.category}\nPrice: ${discountedPrice} L.E${discountText}\n\nDescription: ${product.short_description}`);
+// }
 function showProductDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) {
         console.error('Product not found:', productId);
         return;
     }
-    
+
     // Save product details for detailed view
     localStorage.setItem('selectedProduct', JSON.stringify(product));
-    
-    // For now, show alert with details (you can replace with modal or slide)
-    const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
-    const discountText = product.discount_percentage > 0 ? `\nDiscount: ${product.discount_percentage}%\nOriginal Price: ${product.price} L.E` : '';
-    
-    alert(`Product Details:\n\nName: ${product.name}\nCategory: ${product.category}\nPrice: ${discountedPrice} L.E${discountText}\n\nDescription: ${product.short_description}`);
+
+    // Redirect to Product Details page
+    window.location.href = 'product.html';
 }
 
 // Update cart count in navbar

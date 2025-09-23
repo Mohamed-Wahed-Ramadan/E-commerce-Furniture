@@ -95,3 +95,9 @@ body {
   transform: scale(1.07);
   box-shadow: 0 6px 20px rgba(25,24,59,0.35);
 }
+/* body {
+  padding-top: 80px; 
+}
+main, .product-details {
+  margin-top: 100px;
+} */

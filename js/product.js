@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
-  // Fill product data
   document.getElementById("productImage").src = product.image_url;
   document.getElementById("productImage").alt = product.name;
   document.getElementById("productName").textContent = product.name;
@@ -23,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ? `(${product.discount_percentage}% OFF)` 
     : "";
 
-  // Add to cart
   document.getElementById("addToCartBtn").addEventListener("click", () => {
     let cart = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
     const existing = cart.find(item => item.id === product.id);

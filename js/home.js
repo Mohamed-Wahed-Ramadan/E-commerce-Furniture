@@ -3,8 +3,50 @@ let products = [];
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    loadAndDisplayProducts();
+    // Show loading screen
+    showLoadingScreen();
+    
+    // Load products after a short delay to show loading animation
+    setTimeout(() => {
+        loadAndDisplayProducts();
+        updateCartCount();
+        updateCartList();
+        
+        // Add scroll event listener for scroll-to-top button
+        window.addEventListener('scroll', toggleScrollToTopButton);
+        
+        // Add click event for scroll-to-top button
+        document.getElementById('scrollToTop').addEventListener('click', scrollToTop);
+        
+        // إضافة حدث للنقر على الـ overlay لإغلاق الشريحة
+        const overlay = document.querySelector('.slide-overlay');
+        overlay.addEventListener('click', function() {
+            closeSlide();
+        });
+        
+        // Hide loading screen
+        hideLoadingScreen();
+    }, 2000);
 });
+
+// Show loading screen
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.display = 'flex';
+    }
+}
+
+// Hide loading screen
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 500);
+    }
+}
 
 // Load products from JSON file
 async function loadAndDisplayProducts() {
@@ -55,45 +97,19 @@ function groupProductsByCategory(products) {
 // Create sections for each category
 function createCategorySections() {
     const categories = [...new Set(products.map(product => product.category))];
-    const existingSection = document.querySelector('.cat-corner');
+    const mainContent = document.querySelector('.main-content');
     
-    // Clear existing content except the first section
-    const sectionsToRemove = document.querySelectorAll('.sec-pro:not(.cat-corner)');
-    sectionsToRemove.forEach(section => section.remove());
+    // Clear existing content
+    mainContent.innerHTML = '';
     
     categories.forEach((category, index) => {
-        if (index === 0) {
-            // Update the existing section
-            updateExistingSection(category);
-        } else {
-            // Create new sections for other categories
-            createNewSection(category);
-        }
+        // Create new sections for categories
+        createNewSection(category, mainContent);
     });
 }
 
-// Update the existing section
-function updateExistingSection(category) {
-    const existingSection = document.querySelector('.cat-corner');
-    const title = existingSection.querySelector('.title h2');
-    const proItems = existingSection.querySelector('.pro-items');
-    
-    if (title) {
-        title.textContent = category;
-    }
-    
-    if (proItems) {
-        // Clear existing products
-        proItems.innerHTML = '';
-    }
-    
-    // Update section attributes
-    existingSection.className = `cat-${category.toLowerCase().replace(/\s+/g, '')} sec-pro`;
-    existingSection.id = category.toLowerCase().replace(/\s+/g, '');
-}
-
 // Create new section for a category
-function createNewSection(category) {
+function createNewSection(category, container) {
     const sectionHTML = `
         <section class="cat-${category.toLowerCase().replace(/\s+/g, '')} sec-pro" id="${category.toLowerCase().replace(/\s+/g, '')}">
             <div class="title">
@@ -107,9 +123,8 @@ function createNewSection(category) {
         </section>
     `;
     
-    // Insert the new section after the last section
-    const lastSection = document.querySelector('.sec-pro:last-of-type');
-    lastSection.insertAdjacentHTML('afterend', sectionHTML);
+    // Insert the new section
+    container.insertAdjacentHTML('beforeend', sectionHTML);
 }
 
 // Display products for a specific category
@@ -189,6 +204,162 @@ function calculateDiscountedPrice(originalPrice, discountPercentage) {
     return originalPrice;
 }
 
+// Show product details in slide format
+function showProductDetails(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        console.error('Product not found:', productId);
+        return;
+    }
+    
+    // Save product details for detailed view
+    localStorage.setItem('shown-product', JSON.stringify(product));
+    
+    // Remove existing slide if any
+    const existingSlide = document.querySelector('.show-slide');
+    if (existingSlide) {
+        existingSlide.remove();
+    }
+    
+    // Create slide element
+    const slide = document.createElement('div');
+    slide.className = 'show-slide';
+    
+    // Calculate discounted price
+    const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
+    
+    slide.innerHTML = `
+        <button class="close-slide" onclick="closeSlide()">&times;</button>
+        <img src="${product.image_url}" alt="${product.name}" class="show-img">
+        <h2>${product.name}</h2>
+        <p>${product.short_description}</p>
+        
+        <div class="quantity-controls">
+            <span class="show-price">${discountedPrice} L.E</span>
+            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+            <input type="number" value="1" min="1" max="10" class="quantity-input" id="slide-quantity">
+            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+        </div>
+        
+        <button class="addcart" onclick="addToCartFromSlide('${product.id}')">Add to Cart</button>
+        <br>
+        <button class="product-bage"><a href="./product.html" onclick="saveProductForDetails('${product.id}')">For More Details</a></button>
+    `;
+    
+    // Add slide to body
+    document.body.appendChild(slide);
+    
+    // Show overlay
+    const overlay = document.querySelector('.slide-overlay');
+    overlay.classList.add('active');
+    
+    // Add animation for slide entrance
+    setTimeout(() => {
+        slide.classList.add('active');
+    }, 100);
+}
+
+// Function to close the slide
+function closeSlide() {
+    const slide = document.querySelector('.show-slide');
+    const overlay = document.querySelector('.slide-overlay');
+    
+    if (slide) {
+        slide.classList.remove('active');
+        setTimeout(() => {
+            if (slide.parentNode) {
+                slide.parentNode.removeChild(slide);
+            }
+        }, 300);
+    }
+    
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+    
+    // Remove product from localStorage when closing
+    localStorage.removeItem('shown-product');
+}
+
+// Increase quantity in slide
+function increaseQuantity() {
+    const quantityInput = document.getElementById('slide-quantity');
+    if (quantityInput) {
+        let value = parseInt(quantityInput.value) || 1;
+        if (value < 10) {
+            value++;
+            quantityInput.value = value;
+        }
+    }
+}
+
+// Decrease quantity in slide
+function decreaseQuantity() {
+    const quantityInput = document.getElementById('slide-quantity');
+    if (quantityInput) {
+        let value = parseInt(quantityInput.value) || 1;
+        if (value > 1) {
+            value--;
+            quantityInput.value = value;
+        }
+    }
+}
+
+// Save product for detailed view in product.html
+function saveProductForDetails(productId) {
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+    }
+}
+
+// Add to cart from slide
+function addToCartFromSlide(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        console.error('Product not found:', productId);
+        return;
+    }
+    
+    // Get quantity from input
+    const quantityInput = document.getElementById('slide-quantity');
+    const quantity = parseInt(quantityInput.value) || 1;
+    
+    // Get existing cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
+    
+    // Check if product already exists in cart
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
+        cart.push({
+            id: product.id,
+            name: product.name,
+            price: discountedPrice,
+            originalPrice: product.price,
+            discount: product.discount_percentage,
+            image_url: product.image_url,
+            quantity: quantity
+        });
+    }
+    
+    // Save cart to localStorage
+    localStorage.setItem('shoppingCart', JSON.stringify(cart));
+    
+    // Update cart UI
+    updateCartCount();
+    updateCartList();
+    
+    // Show success message
+    showNotification(`${product.name} added to cart!`);
+    
+    // Close slide after adding to cart
+    closeSlide();
+}
+
 // Add product to cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
@@ -223,6 +394,7 @@ function addToCart(productId) {
     
     // Update cart UI
     updateCartCount();
+    updateCartList();
     
     // Show success message
     showNotification(`${product.name} added to cart!`);
@@ -230,22 +402,92 @@ function addToCart(productId) {
     console.log('Product added to cart:', product.name);
 }
 
-// Show product details
-function showProductDetails(productId) {
-    const product = products.find(p => p.id === productId);
-    if (!product) {
-        console.error('Product not found:', productId);
+// Update cart list display
+function updateCartList() {
+    const cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
+    const cartList = document.querySelector('.cart-list ul');
+    
+    if (!cartList) return;
+    
+    // Clear existing items
+    cartList.innerHTML = '';
+    
+    if (cart.length === 0) {
+        cartList.innerHTML = '<li style="text-align: center; color: #666; padding: 10px;">Your cart is empty</li>';
         return;
     }
     
-    // Save product details for detailed view
-    localStorage.setItem('selectedProduct', JSON.stringify(product));
+    // Add cart items
+    cart.forEach(item => {
+        const cartItem = document.createElement('li');
+        cartItem.className = 'cart-item-details';
+        cartItem.innerHTML = `
+            <img src="${item.image_url}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-info">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-price">${item.price} L.E × ${item.quantity}</div>
+                <div class="cart-quantity-controls">
+                    <button class="cart-quantity-btn" onclick="decreaseCartQuantity('${item.id}')">-</button>
+                    <input type="number" value="${item.quantity}" min="1" class="cart-quantity-input" readonly>
+                    <button class="cart-quantity-btn" onclick="increaseCartQuantity('${item.id}')">+</button><pre> </pre>
+                    <button class="cart-remove-btn" onclick="removeFromCart('${item.id}')">×</button>
+                </div>
+            </div>
+        `;
+        cartList.appendChild(cartItem);
+    });
     
-    // For now, show alert with details (you can replace with modal or slide)
-    const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
-    const discountText = product.discount_percentage > 0 ? `\nDiscount: ${product.discount_percentage}%\nOriginal Price: ${product.price} L.E` : '';
+    // Add total and checkout button
+    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const totalItem = document.createElement('li');
+    totalItem.innerHTML = `
+        <div style="text-align: center; padding: 10px;">
+            <div style="font-weight: bold; margin-bottom: 10px; color: #fff;">Total: ${total.toFixed(2)} L.E</div>
+            <a href="./cart.html" style="background: #19183B; color: white; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 14px; display: inline-block;">Checkout</a>
+        </div>
+    `;
+    cartList.appendChild(totalItem);
+}
+
+// Increase quantity in cart
+function increaseCartQuantity(productId) {
+    let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
+    const item = cart.find(item => item.id === productId);
     
-    alert(`Product Details:\n\nName: ${product.name}\nCategory: ${product.category}\nPrice: ${discountedPrice} L.E${discountText}\n\nDescription: ${product.short_description}`);
+    if (item) {
+        item.quantity += 1;
+        localStorage.setItem('shoppingCart', JSON.stringify(cart));
+        updateCartCount();
+        updateCartList();
+    }
+}
+
+// Decrease quantity in cart
+function decreaseCartQuantity(productId) {
+    let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
+    const item = cart.find(item => item.id === productId);
+    
+    if (item) {
+        if (item.quantity > 1) {
+            item.quantity -= 1;
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartList();
+        } else {
+            removeFromCart(productId);
+        }
+    }
+}
+
+// Remove item from cart
+function removeFromCart(productId) {
+    let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('shoppingCart', JSON.stringify(cart));
+    
+    updateCartCount();
+    updateCartList();
+    showNotification('Item removed from cart');
 }
 
 // Update cart count in navbar
@@ -265,7 +507,7 @@ function showNotification(message) {
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
-        top: 20px;
+        top: 100px;
         right: 20px;
         background-color: #19183B;
         color: white;
@@ -300,9 +542,9 @@ function showNotification(message) {
 
 // Show error message
 function showErrorMessage(message) {
-    const proItems = document.querySelector('.pro-items');
-    if (proItems) {
-        proItems.innerHTML = `
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.innerHTML = `
             <div style="text-align: center; padding: 50px; width: 100%; color: #ff4444;">
                 <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 20px;"></i>
                 <h3>Error Loading Products</h3>
@@ -321,12 +563,33 @@ function showErrorMessage(message) {
     }
 }
 
-// Initialize cart count on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updateCartCount();
-});
+// Toggle scroll to top button visibility
+function toggleScrollToTopButton() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    if (window.scrollY > 300) {
+        scrollToTopBtn.classList.add('visible');
+    } else {
+        scrollToTopBtn.classList.remove('visible');
+    }
+}
+
+// Scroll to top function
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+}
 
 // Export functions for global access
 window.addToCart = addToCart;
 window.showProductDetails = showProductDetails;
+window.addToCartFromSlide = addToCartFromSlide;
+window.removeFromCart = removeFromCart;
+window.saveProductForDetails = saveProductForDetails;
+window.increaseQuantity = increaseQuantity;
+window.decreaseQuantity = decreaseQuantity;
+window.increaseCartQuantity = increaseCartQuantity;
+window.decreaseCartQuantity = decreaseCartQuantity;
+window.closeSlide = closeSlide;
 window.products = products;

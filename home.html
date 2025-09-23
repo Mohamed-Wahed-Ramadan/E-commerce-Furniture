@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,17 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23C5E4DF;stop-opacity:1' /><stop offset='100%25' style='stop-color:%23F5F9F8;stop-opacity:1' /></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23grad)'/><text x='50' y='60' font-family='Arial' font-size='30' fill='%2319183B' text-anchor='middle'>🛋️</text></svg>">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/home.css">
-    <!-- <link rel="stylesheet" href="css/font-awesome.min.css"> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Loading FurniStore...</p>
+        </div>
+    </div>
+
     <nav>
         <div>
             <a href="./home.html"><i class="fas fa-couch"></i> </a>
@@ -19,101 +26,99 @@
         </div>
         <div class="user">
             <input type="checkbox" id="user">
-            <label for="user" id="user-name">User</label>
-        <div class="user-list">
-            <ul>
-                <li><a href="./cart.html ">Go to Cart</a></li><hr>
-                <li><a href="./discount .html">Go to Discount</a></li><hr>
-                <li><button>Logout</button></li>
-            </ul>
-        </div>
-        </div>
-        
-
-        <div class="cart">
-            <input type="checkbox" id="cart">
-            <label for="cart" ><i class="fas fa-cart-shopping"></i></label>
-            <span class="cart-item">0</span>
-            <div class="cart-list">
+            <label for="user" id="user-name" >User</label>
+            <div class="user-list">
                 <ul>
-                    <li></li>
-                    <!-- <li><a href="#">Corner Sofa</a></li> <hr> -->
-                    <!-- <li><a href="#">Bedrooms</a></li><hr>
-                    <li><a href="#">Chairs</a></li> -->
+                    <li><a href="./cart.html">Go to Cart</a></li><hr>
+                    <li><a href="./discount .html">Go to Discount</a></li><hr>
+                    <li><button id="logout" onclick="logout()">Logout</button></li>
                 </ul>
             </div>
         </div>
+        
+        <div class="cart">
+            <input type="checkbox" id="cart">
+            <label for="cart"><i class="fas fa-cart-shopping"></i></label>
+            <span class="cart-item">0</span>
+            <div class="cart-list">
+                <ul>
+                    <!-- Cart items will be populated by JavaScript -->
+                </ul>
+            </div>
+        </div>
+        
         <ul class="ul-cat">
-            <li><a href="#">Corner Sofa</a></li> 
-            <li><a href="#">Bedrooms</a></li>
-            <li><a href="#">Chairs</a></li>
+            <li><a href="#corner">Corner Sofa</a></li> 
+            <li><a href="#bedrooms">Bedrooms</a></li>
+            <li><a href="#chairs">Chairs</a></li>
         </ul>
+        
         <span class="barkmode"><i class="fas fa-moon"></i></span>
-        <!-- /////////////////////////////// -->
+        
         <div class="setting">
             <input type="checkbox" id="sett">
-            <label for="sett" >
-            <div class="burger">
-                <span class="burger-layer span1"></span>
-                <span class="burger-layer span2"></span>
-                <span class="burger-layer span3"></span>
-            </div>
+            <label for="sett">
+                <div class="burger">
+                    <span class="burger-layer span1"></span>
+                    <span class="burger-layer span2"></span>
+                    <span class="burger-layer span3"></span>
+                </div>
             </label>
             <div class="sett-list">
                 <ul>
                     <li><a href="#corner">Corner Sofa</a></li> <hr>
-                    <li><a href="#">Bedrooms</a></li><hr>
-                    <li><a href="#">Chairs</a></li>
+                    <li><a href="#bedrooms">Bedrooms</a></li><hr>
+                    <li><a href="#chairs">Chairs</a></li>
                 </ul>
             </div>
         </div>
-        <!-- /////////////////////// -->
-         
     </nav>
-     <br>
-     <br>
-     <br>
-     <br>
-     <br>
-
-    <section class="cat-corner sec-pro" id="corner">
-        <div class="title">
-            <h2>Corner Sofa</h2>
-            <span class="title-border"></span>
-        </div>
-        <br>
-        <br>
-        <div class="pro-items">
-            <!-- <div class="pro-body"></div> -->
-            <div class="pro-body">
-
-            <img src="./img/c1.jpg" alt="Chairs" loading="lazy">
-
-            <span class="p-style"></span>
-            <span class="p-style2"></span>
-            <span class="price">2000 L.E</span>
-
-            <span class="a-style"></span>
-            <span class="a-style2"></span>
-            <span class="add"><button class="btnAdd"><i class="fas fa-plus"></i></button></span>
-
-            <span class="dis">20%</span>
-             <span class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="far fa-star"></i>
-             </span>
-             <button class="more-details">More Details</button>
-             </div>
-             
-        </div>
-    </section>
-
+    <!-- ////////////////////////////////////////////// -->
+     
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="scroll-top-btn">
+        <i class="fas fa-chevron-up"></i>
+    </button>
     
+    <div class="main-content">
+        <!-- Sections will be populated by JavaScript -->
+    </div>
+    
+    <!-- Product Slide -->
+    <div class="slide-overlay"></div>
+    <br>
+    <br>
+    <br>
+    <footer>
+        <div class="footer-con">
+            <div>
+                <h2>Created By</h2>
+                <p>Eng/Mohamed Ahmed Sharkawy</p>
+                <p>Eng/Mohamed Hamada Mohamed</p>
+                <p>Eng/Mohamed Waheed Ramadan</p>
+                <p>Eng/Salma Essam Ali</p>
+                <p>Waleed Ayman Osman</p>
+            </div>
+            <div>
+                <h2>FurniStore</h2>
+               <h3 class="icons"> <span><a href="https://facebook.com" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></span>
+                <span><a href="https://x.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a></span>
+                <span><a href="https://instagram.com" target="_blank"><i class="fab fa-instagram fa-2x"></i></a></span>
+               </h3>
+           
+            </div>
+            <div>
+            <h2>Contact Us</h2>
+            <p><i class="fas fa-envelope"></i> FurniStore@gmail.com</p>
+            <p><i class="fa-solid fa-location-dot"></i> Address: Egypt - Cairo - Maadi</p>
+            <p><i class="fas fa-phone"></i> 01123002663</p>
+            <p><i class="fas fa-clock"></i> Our business hours are from 11:00 in the morning until 11:00 in the evening.</p>
+           </div>
+        </div>
+    </footer>
+            <p class="copyright">© 2025 FurniStore. All rights reserved.</p>
 
-<script src="./js/home.js"></script>
+    <script src="./js/home.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>

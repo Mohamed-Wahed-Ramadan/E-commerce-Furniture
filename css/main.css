@@ -7,6 +7,7 @@
 body {
     background-color: #E7F2EF;
     font-family: Arial, sans-serif;
+    height: 100%;
 }
 
 nav {
@@ -677,4 +678,53 @@ body.dark .barkmode i {
     100% {
         background-position: 0% 50%;
     }
+}
+/* ///////////////////////// */
+footer{
+    background-color: #19183B;
+    padding: 20px 50px 10px;
+    margin-top: auto;
+}
+.footer-con{
+    display: flex;
+    justify-content: space-between;
+}
+.footer-con div{
+    width: 25%;
+
+}
+.footer-con div h2{
+    color: #A1C2BD;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.footer-con div p{
+    /* text-align: center; */
+    margin:10px 0 0 50px;
+    font-weight: bold;
+    font-size: 17px;
+    color: white;
+}
+.icons span a{
+    color: #A1C2BD;
+    text-decoration: none;
+    display: inline-block;
+    margin:20px 10px;
+    transition: transform 0.6s ease;
+}
+.icons span a:hover{
+    color: #029df7;
+    transform: scale(1.2);
+     transform: rotateY(360deg);
+}
+.copyright{
+    text-align: center;
+    background-color: #0a0924;
+    color: white;
+    padding: 6px;
+}
+.icons{
+    text-align: center;
+    margin: 0;
+
 }

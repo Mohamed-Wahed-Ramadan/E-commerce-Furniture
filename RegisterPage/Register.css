@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#container{
+    height: 100vh;
+    background: url(../images/BG2.jpg) no-repeat center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+h2{
+    margin-bottom: 20px;
+}
+form{
+    width: 400px;
+    display: flex;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    color: #fff;
+    padding: 35px;
+    flex-direction: column;
+    align-items: center;
+}
+.input input{
+    background: transparent;
+    width: 100%;
+    padding: 12px;
+    margin: 10px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 6px;
+}
+.action{
+    margin-top: 20px;
+}
+#signupbtn{
+    font-size: 15px;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    background-color: #d1973c;
+}
+.action p{
+    display: inline;
+    margin-right: 5px;
+}
+.action a{
+    display: inline;
+    color:aquamarine;
+}

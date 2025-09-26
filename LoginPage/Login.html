@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LoginPage</title>
+    <link rel="stylesheet" href="./Login.css">
+</head>
+<body>
+    <main>
+        <form id="loginForm" action="#">
+            <h2>Login</h2>
+            <div>
+                <input type="email" id="loginEmail" name="Email" placeholder="Enter Your Email" autocomplete="on" required>
+            </div>
+            <div>
+                <input type="password" id="loginPass" name="Pass" placeholder="Enter Your Password" autocomplete="current-password" required>
+            </div>
+            <div id="RememberMe" >
+                <input type="checkbox" id="Remember" value="true">
+                <label for="Remember">Remember me</label>
+            </div>
+            <div id="reg">
+                <button id="login" type="submit" formaction="../home.html" name="loginButton">Log In</button>      
+                <a id="Register" href="../RegisterPage/Register.html" target="_self">Don't have an account? Register</a>
+            </div>
+            </form>
+    </main>
+    <script src="./Login.js"></script>
+</body>
+</html>

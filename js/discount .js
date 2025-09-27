@@ -1,4 +1,9 @@
 let cartContainer = document.getElementById("cards-container");
+let products = []; 
+
+document.addEventListener("DOMContentLoaded", function() {
+    loadAndDisplayProducts();
+});
 
 // Load products from JSON file
 async function loadAndDisplayProducts() {
@@ -16,34 +21,26 @@ async function loadAndDisplayProducts() {
       if (product.discount_percentage > 0) {
         productData += `
         <div class="card" id="myCard">
-        <img src=${product.image_url} alt="Card Image" />
+        <img src="${product.image_url}" alt="Card Image" />
         <div class="card-content">
           <h3>${product.name}</h3>
           <h5>${product.category}</h5>
           <p>${product.short_description}</p>
-          <span class="old-price">${
-            product.price
-          }L.E</span> <span class="new-price">${
-          product.price - (product.price * product.discount_percentage) / 100
-        }L.E</span>
+          <span class="old-price">${product.price}L.E</span> 
+          <span class="new-price">${product.price - (product.price * product.discount_percentage) / 100}L.E</span>
           <br>
           <br>
-          <a href="#" class="btn">details </a>
-        <button onclick="addToCart('${
-          product.id
-        }')" class="btn">Add to Cart</button>
+          <button class="btn product-bage" onclick="saveProductForDetails('${product.id}')">For More Details</button>
+          <button onclick="addToCart('${product.id}')" class="btn">Add to Cart</button>
           </div>
       </div>
-
     `;
       }
     }
     cartContainer.innerHTML = productData;
   } catch (error) {
     console.error("Error loading products:", error);
-    showErrorMessage(
-      "Error loading products. Please check if the JSON file exists."
-    );
+    showErrorMessage("Error loading products. Please check if the JSON file exists.");
   }
 }
 
@@ -63,8 +60,7 @@ function addToCart(productId) {
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
-    const discountedPrice =
-      product.price - (product.price * product.discount_percentage) / 100;
+    const discountedPrice = product.price - (product.price * product.discount_percentage) / 100;
     cart.push({
       id: product.id,
       name: product.name,
@@ -87,6 +83,7 @@ function addToCart(productId) {
 
   console.log("Product added to cart:", product.name);
 }
+
 function showNotification(message) {
   // Create notification element
   const notification = document.createElement("div");
@@ -124,6 +121,7 @@ function showNotification(message) {
     }, 300);
   }, 3000);
 }
+
 // Update cart count in navbar
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
@@ -134,4 +132,24 @@ function updateCartCount() {
         cartElement.textContent = totalItems;
     }
 }
-loadAndDisplayProducts();
+
+function saveProductForDetails(productId) {
+    // نظف البيانات القديمة
+    localStorage.removeItem('selectedProduct');
+    localStorage.removeItem('selectedProductId');
+    
+    // احفظ الـ ID الجديد
+    localStorage.setItem('selectedProductId', productId);
+    
+    const product = products.find(p => p.id === productId);
+    if (product) {
+        localStorage.setItem('selectedProduct', JSON.stringify(product));
+    }
+    
+    console.log('Product saved for details:', productId);
+    
+    // انتقل لصفحة المنتج بعد تأخير بسيط
+    setTimeout(() => {
+        window.location.href = './product.html';
+    }, 100);
+}

@@ -96,7 +96,7 @@
     left: 0; top: 0;
     width: 100%; height: 100%;
     background: rgba(0,0,0,0.6);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
   }
@@ -156,3 +156,87 @@
     from {opacity: 0; transform: scale(0.9);}
     to   {opacity: 1; transform: scale(1);}
   }
+
+
+  /* ===== DARK MODE FIXES FOR CART PAGE ===== */
+
+/* إجبار النص يفضل أسود في وضع الدارك مود */
+/* body.dark .cart-container, */
+body.dark .cart-container h1,
+body.dark .cart-container h2,
+body.dark .cart-container h3,
+body.dark .cart-container p,
+body.dark .cart-container span {
+    color: #000000 !important;
+}
+
+/* الجدول والنص بداخله */
+body.dark .cart-table,
+body.dark .cart-table th,
+body.dark .cart-table td,
+body.dark .cart-table tr {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+}
+
+/* التأكد من أن خلفية الجدول تفضل بيضاء */
+body.dark .cart-table {
+    background: #ffffff !important;
+}
+
+body.dark .cart-table th {
+    background: #f0f4f3 !important;
+    color: #000000 !important;
+}
+
+/* الـ cart summary
+body.dark .cart-summary,
+body.dark .cart-summary h2,
+body.dark .cart-summary strong {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+} */
+
+/* النص في المودال */
+body.dark .modal-content,
+body.dark .modal-content h3,
+body.dark .modal-content p {
+    color: #000000 !important;
+}
+
+/* التأكد من أن أزرار الكمية واضحة */
+body.dark .qty-btn {
+    color: #000000 !important;
+    border: 1px solid #000000 !important;
+}
+
+body.dark .quantity-input {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #000000 !important;
+}
+
+/* الرسالة عندما السلة فاضية */
+body.dark .cart-container td[colspan] {
+    color: #000000 !important;
+}
+
+body.dark .cart-container td[colspan] h3,
+body.dark .cart-container td[colspan] p {
+    color: #000000 !important;
+}
+
+/* التأكد من أن الروابط واضحة */
+body.dark .cart-container a {
+    color: #000000 !important;
+}
+body.dark .cart-container h1 {
+    color: #eeebeb !important;
+}
+
+body.dark .cart-container a:hover {
+    color: #333333 !important;
+}
+#discount {
+  color: green !important;
+}

@@ -37,6 +37,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     localStorage.setItem("shoppingCart", JSON.stringify(cart));
-    alert(`${product.name} added to cart!`);
+    
+    // تحديث السلة فوراً
+    updateCartUI();
   });
 });
+
+// دالة مساعدة لتحديث واجهة السلة
+function updateCartUI() {
+  // تحديث العداد
+  const cart = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
+  const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+  const cartElement = document.querySelector(".cart-item");
+  if (cartElement) {
+    cartElement.textContent = totalItems;
+  }
+  
+  // إذا فيه notification function استخدمها، وإلا استخدم alert
+  if (typeof showNotification === 'function') {
+    const product = JSON.parse(localStorage.getItem("selectedProduct"));
+    showNotification(`${product.name} added to cart!`);
+  }
+}

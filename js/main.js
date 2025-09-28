@@ -311,6 +311,14 @@ function scrollToTop() {
 
 // Logout function
 function logout() {
+    // Check if user is already a guest
+    if (currentUser.name === "Guest") {
+        // Just redirect to login page without clearing data or showing notification
+        window.location.href = "./Loginpage/Login.html";
+        return;
+    }
+    
+    // For registered users: clear data and show notification
     // Clear all localStorage data except dark mode preference
     const darkModePreference = localStorage.getItem('darkMode');
     localStorage.clear();
@@ -341,7 +349,6 @@ function logout() {
         window.location.href = "./Loginpage/Login.html";
     }, 1500);
 }
-
 // Initialize product page specific functionality
 function initializeProductPage() {
     console.log('Initializing product page functionality...');

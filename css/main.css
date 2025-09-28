@@ -49,7 +49,9 @@ nav {
     color: white;
     font-weight: bold;
 }
-
+a{
+    text-decoration: none;
+}
 #user {
     display: none;
 }
@@ -901,6 +903,7 @@ footer {
     .footer-con div p {
         font-size: 12px;
         word-break: break-all;
+        text-align: justify;
     }
     
     .footer-con div h2 {
@@ -924,3 +927,6 @@ footer {
 }
 /* ///////////////////////////////////////////////////// */
 
+.cart-list:hover{
+    display: block;
+}

@@ -188,6 +188,47 @@ function updateCartSummary() {
     }
 }
 
+function logout() {
+    // Check if user is already a guest
+    if (currentUser.name === "Guest") {
+        // Just redirect to login page without clearing data or showing notification
+        window.location.href = "./Loginpage/Login.html";
+        return;
+    }
+    
+    // For registered users: clear data and show notification
+    // Clear all localStorage data except dark mode preference
+    const darkModePreference = localStorage.getItem('darkMode');
+    localStorage.clear();
+    
+    // Restore dark mode preference
+    if (darkModePreference) {
+        localStorage.setItem('darkMode', darkModePreference);
+    }
+    
+    // Reset user to guest
+    currentUser = { name: "Guest" };
+    updateUserName();
+    
+    // Close user dropdown
+    const userCheckbox = document.getElementById("user");
+    if (userCheckbox) {
+        userCheckbox.checked = false;
+    }
+    
+    showNotification("Logged out successfully - Redirecting to login...");
+    
+    // Update cart to reflect it's empty
+    updateCartCount();
+    updateCartList();
+    
+    // Redirect to login page after a short delay
+    setTimeout(() => {
+        window.location.href = "./Loginpage/Login.html";
+    }, 1500);
+}
+
+// Modified checkout function for cart.js
 function setupCheckoutModal() {
     const checkoutBtn = document.querySelector(".checkout-btn");
     const modal = document.getElementById("success-modal");
@@ -206,6 +247,21 @@ function setupCheckoutModal() {
             return;
         }
         
+        // Check if user is guest
+        const currentUser = window.currentUser || { name: "Guest" };
+        if (currentUser.name === "Guest") {
+            if (typeof showNotification === 'function') {
+                showNotification("Please login to proceed with checkout");
+            }
+            
+            // Redirect to login page after short delay
+            setTimeout(() => {
+                window.location.href = "./Loginpage/Login.html";
+            }, 1500);
+            return;
+        }
+        
+        // Show checkout confirmation modal for logged-in users
         modal.style.display = "flex";
     });
     

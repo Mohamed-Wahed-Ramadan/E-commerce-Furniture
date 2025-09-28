@@ -30,7 +30,7 @@ async function loadAndDisplayProducts() {
           <span class="new-price">${product.price - (product.price * product.discount_percentage) / 100}L.E</span>
           <br>
           <br>
-          <button class="btn product-bage" onclick="saveProductForDetails('${product.id}')">For More Details</button>
+          <button class="btn " onclick="saveProductForDetails('${product.id}')">Details</button>
           <button onclick="addToCart('${product.id}')" class="btn">Add to Cart</button>
           </div>
       </div>

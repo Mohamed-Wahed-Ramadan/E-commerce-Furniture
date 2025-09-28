@@ -20,7 +20,7 @@ function loadCartItems() {
                     <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
                     <h3>Your cart is empty</h3>
                     <p>Start shopping to add items to your cart</p>
-                    <a href="./home.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #19183B; color: white; text-decoration: none; border-radius: 5px;">Go Shopping</a>
+                    <a href="./index.html" class="btn-a" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #8ed6c9ff; color: white; text-decoration: none; border-radius: 5px;" >Go Shopping</a>
                 </td>
             </tr>
         `;
@@ -225,7 +225,7 @@ function setupCheckoutModal() {
         
         // Redirect to home page
         setTimeout(() => {
-            window.location.href = "home.html";
+            window.location.href = "index.html";
         }, 1000);
     });
     

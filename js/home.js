@@ -241,9 +241,12 @@ function showProductDetails(productId) {
             <button class="quantity-btn" onclick="increaseQuantity()">+</button>
         </div>
         
-        <button class="addcart" onclick="addToCartFromSlide('${product.id}')">Add to Cart</button>
-        <br>
-        <button class="product-bage"><a href="./product.html" onclick="saveProductForDetails('${product.id}')">For More Details</a></button>
+        <div class="slide-buttons">
+            <button class="addcart" onclick="addToCartFromSlide('${product.id}')">Add to Cart</button>
+            <button class="product-bage">
+                <a href="./product.html" onclick="saveProductForDetails('${product.id}')">For More Details</a>
+            </button>
+        </div>
     `;
     
     // Add slide to body
@@ -256,7 +259,13 @@ function showProductDetails(productId) {
     // Add animation for slide entrance
     setTimeout(() => {
         slide.classList.add('active');
+        
+        // Scroll to top of slide when opening
+        slide.scrollTop = 0;
     }, 100);
+    
+    // Prevent body scroll when slide is open
+    document.body.style.overflow = 'hidden';
 }
 
 // Function to close the slide
@@ -276,6 +285,9 @@ function closeSlide() {
     if (overlay) {
         overlay.classList.remove('active');
     }
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
     
     // Remove product from localStorage when closing
     localStorage.removeItem('shown-product');

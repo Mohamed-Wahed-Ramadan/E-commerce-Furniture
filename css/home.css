@@ -74,12 +74,13 @@
     border-radius: 20px;
     padding: 20px;
     background-color: #A1C2BD;
+    transform: translateX(-15px);
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pro-body:hover {
-    transform: translateY(-5px);
+    transform: translate(-15px,-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -532,8 +533,8 @@
     }
     
     .pro-body {
-        width: 300px;
-        height: 300px;
+        width:290px;
+        height: 290px;
     }
     
     .show-slide {
@@ -551,3 +552,326 @@
     to { opacity: 1; }
 }
 
+/* //////////////////////////// */
+
+
+/* Product Slide Styles - Fixed Version */
+.show-slide {
+    position: fixed;
+    top: 10%;
+    left: 0;
+    width: 400px;
+    max-width: 90%;
+    max-height: 80vh; /* Changed from 90vh to 80vh for better spacing */
+    border-radius: 5px 40px 40px 5px;
+    background-color: #708993;
+    padding: 20px;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    
+    /* Critical fixes for scrolling */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* For iOS Safari */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #5a7179 #708993; /* Firefox */
+}
+
+.show-slide.active {
+    transform: translateX(0);
+}
+
+/* Custom Scrollbar for Webkit browsers (Chrome, Safari, Edge) */
+.show-slide::-webkit-scrollbar {
+    width: 8px;
+}
+
+.show-slide::-webkit-scrollbar-track {
+    background: rgba(26, 56, 63, 0.2);
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.show-slide::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #5a7179 0%, #26383f 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background 0.3s ease;
+}
+
+.show-slide::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #26383f 0%, #19183B 100%);
+}
+
+.show-img {
+    width: 100%;
+    height: 300px;
+    border-radius: 5px 40px 40px 5px;
+    object-fit: cover;
+    margin-bottom: 15px; /* Added margin for better spacing */
+}
+
+.show-slide h2 {
+    text-align: center;
+    margin: 15px 0;
+    color: #19183B;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.show-slide p {
+    padding: 0 15px;
+    color: #19183B;
+    line-height: 1.6; /* Improved line height */
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.show-price {
+    display: inline-block;
+    padding: 12px 18px; /* Slightly increased padding */
+    background-color: #26383f;
+    border-radius: 20px;
+    margin: 10px 0;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px 0; /* Increased margin */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 10px;
+}
+
+.quantity-btn {
+    width: 35px; /* Slightly larger */
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background-color: #26383f;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.quantity-btn:hover {
+    background-color: #19183B;
+    transform: translateY(-1px);
+}
+
+.quantity-input {
+    width: 70px; /* Slightly wider */
+    height: 35px;
+    border: 0;
+    border-radius: 20px;
+    text-align: center;
+    margin: 0 10px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: white;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.slide-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0 15px; /* Added padding */
+}
+
+.addcart {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: #26383f;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.addcart:hover {
+    background-color: #19183B;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.product-bage {
+    display: block;
+    margin: 0;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    background-color: #26383f;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-bage:hover {
+    background-color: #19183B;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.product-bage a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1em;
+    display: block;
+    width: 100%;
+}
+
+/* Close button improvements */
+.close-slide {
+    position: absolute;
+    top: 15px; /* Adjusted position */
+    right: 15px;
+    background: linear-gradient(135deg, #ff4444, #cc3333);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px; /* Slightly larger */
+    height: 35px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.close-slide:hover {
+    background: linear-gradient(135deg, #cc3333, #aa2222);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Overlay improvements */
+.slide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* Darker overlay */
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(2px); /* Add blur effect */
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.slide-overlay.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Responsive Design for slide */
+@media (max-width: 768px) {
+    .show-slide {
+        width: 95%;
+        max-width: 95%;
+        top: 5%;
+        max-height: 85vh; /* Adjusted for mobile */
+        /* left: 50%; */
+        transform: translateX(-50%) translateY(-100%);
+        border-radius: 20px;
+        padding: 15px;
+    }
+    
+    .show-slide.active {
+        transform: translateX(-50%) translateY(0);
+    }
+    
+    .show-img {
+        height: 250px;
+        border-radius: 20px;
+    }
+    
+    .quantity-controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .quantity-controls > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* Additional fixes for different browsers */
+.show-slide {
+    /* Force GPU acceleration */
+    will-change: transform;
+    transform: translateX(-100%) translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.show-slide.active {
+    transform: translateX(0) translateZ(0);
+}
+
+/* Ensure content doesn't overflow */
+.show-slide * {
+    box-sizing: border-box;
+}
+
+/* Fix for touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .show-slide {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+}
+
+/* Additional padding at the bottom to ensure all content is accessible */
+.show-slide::after {
+    content: "";
+    display: block;
+    height: 20px;
+    width: 100%;
+}
+
+/* Smooth scrolling animation */
+@media (prefers-reduced-motion: no-preference) {
+    .show-slide {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Fix for Safari */
+@supports (-webkit-appearance: none) {
+    .show-slide {
+        -webkit-transform: translateX(-100%);
+        -webkit-transition: -webkit-transform 0.3s ease-in-out;
+    }
+    
+    .show-slide.active {
+        -webkit-transform: translateX(0);
+    }
+}

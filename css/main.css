@@ -17,6 +17,7 @@ nav {
     background-color: #19183B;
     color: white;
     width: 100%;
+    max-width: 100vw;
     padding: 10px 0;
     display: flex;
     justify-content: space-between;
@@ -45,6 +46,7 @@ nav {
 
 .logo {
     font-size: 25px;
+    color: white;
     font-weight: bold;
 }
 
@@ -680,102 +682,245 @@ body.dark .barkmode i {
     }
 }
 /* ///////////////////////// */
-footer{
-    background-color: #19183B;
-    padding: 20px 50px 10px;
+footer {
+    background-color: #091a22;
+    padding: 20px;
     margin-top: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
-.footer-con{
+
+.footer-con {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
 }
-.footer-con div{
-    width: 25%;
 
+.footer-con div {
+    flex: 1;
+    min-width: 250px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
-.footer-con div h2{
+
+.footer-con div h2 {
     color: #A1C2BD;
     text-align: center;
     margin-bottom: 15px;
-}
-.footer-con div p{
-    /* text-align: center; */
-    margin:10px 0 0 50px;
-    font-weight: bold;
-    font-size: 17px;
-    color: white;
+    font-size: 20px;
 }
 
-.copyright{
+.footer-con div p {
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.copyright {
     text-align: center;
     background-color: #0a0924;
     color: white;
-    padding: 6px;
-}
-.icons{
-    text-align: center;
+    padding: 10px;
     margin: 0;
-
+    width: 100%;
+    box-sizing: border-box;
 }
-.footer-link{
+
+.icons {
+    text-align: center;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
     display: block;
     color: #ddd;
     text-decoration: none;
     text-align: center;
     font-weight: bold;
+    margin: 8px 0;
+    padding: 5px;
+    transition: color 0.3s ease;
 }
-.footer-link:hover{
+
+.footer-link:hover {
     color: #708993;
 }
-.fa-twitter{
+
+.fa-twitter, .fa-facebook, .fa-instagram {
     color: #A1C2BD;
     text-decoration: none;
     display: inline-block;
-    margin:20px 10px;
-    transition: transform 0.6s ease;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    font-size: 24px;
 }
-.fa-twitter:hover{
+
+.fa-twitter:hover {
     color: #029df7;
-    transform: scale(1.2);
-     transform: rotateY(360deg);
+    transform: scale(1.2) rotateY(360deg);
 }
-.fa-facebook{
-    color: #A1C2BD;
-    text-decoration: none;
-    display: inline-block;
-    margin:20px 10px;
-    transition: transform 0.6s ease;
-}
-.fa-facebook:hover{
+
+.fa-facebook:hover {
     color: #184b68;
-    transform: scale(1.2);
-     transform: rotateY(360deg);
+    transform: scale(1.2) rotateY(360deg);
 }
-.fa-instagram{
-    color: #A1C2BD;
-    text-decoration: none;
-    display: inline-block;
-    margin:20px 10px;
-    transition: transform 0.6s ease;
-}
-.fa-instagram:hover{
+
+.fa-instagram:hover {
     color: #e986d8;
-    transform: scale(1.2);
-     transform: rotateY(360deg);
+    transform: scale(1.2) rotateY(360deg);
 }
+
+/* تحسينات للتابلت */
+@media (max-width: 1024px) {
+    footer {
+        padding: 15px;
+    }
+    
+    .footer-con {
+        gap: 15px;
+    }
+    
+    .footer-con div {
+        min-width: 200px;
+    }
+    
+    .footer-con div h2 {
+        font-size: 18px;
+    }
+    
+    .footer-con div p {
+        font-size: 15px;
+    }
+}
+
+/* تحسينات للموبايل الكبير */
 @media (max-width: 768px) {
+    .logo {
+        font-size: 20px;
+    }
+    
+    footer {
+        padding: 15px 10px;
+    }
+    
     .footer-con {
         flex-direction: column;
         align-items: center;
-        text-align: center;
+        gap: 25px;
     }
-
+    
     .footer-con div {
         width: 100%;
-        margin-bottom: 20px;
+        max-width: 400px;
+        min-width: unset;
     }
-
+    
+    .footer-con div h2 {
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+    
     .footer-con div p {
+        font-size: 14px;
+        margin: 8px 0;
+        text-align: center;
+    }
+    
+    .icons {
         margin: 10px 0;
+        gap: 20px;
+    }
+    
+    .fa-twitter, .fa-facebook, .fa-instagram {
+        font-size: 28px;
+        margin: 0;
     }
 }
+
+/* تحسينات للموبايل الصغير */
+@media (max-width: 480px) {
+    footer {
+        padding: 10px 5px;
+    }
+    
+    .footer-con {
+        gap: 20px;
+    }
+    
+    .footer-con div {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+    
+    .footer-con div h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    
+    .footer-con div p {
+        font-size: 13px;
+        margin: 6px 0;
+        line-height: 1.4;
+    }
+    
+    .icons {
+        gap: 15px;
+        margin: 8px 0;
+    }
+    
+    .fa-twitter, .fa-facebook, .fa-instagram {
+        font-size: 24px;
+    }
+    
+    .copyright {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+/* تحسينات للشاشات الصغيرة جداً */
+@media (max-width: 320px) {
+    footer {
+        padding: 8px 3px;
+    }
+    
+    .footer-con div p {
+        font-size: 12px;
+        word-break: break-all;
+    }
+    
+    .footer-con div h2 {
+        font-size: 15px;
+    }
+    
+    .icons {
+        gap: 12px;
+    }
+    
+    .fa-twitter, .fa-facebook, .fa-instagram {
+        font-size: 22px;
+    }
+}
+/* ///////////////////////////////////////////////////// */
+
+@media (max-width: 768px) {
+    .logo{
+        font-size: 20px;
+    }
+}
+/* ///////////////////////////////////////////////////// */
+

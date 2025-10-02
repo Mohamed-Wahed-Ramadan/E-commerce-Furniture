@@ -332,4 +332,4 @@ window.removeFromCart = removeFromCart;
 window.logout = logout;
 window.updateCartCount = updateCartCount;
 window.updateCartList = updateCartList;
-window.showNotification = showNotification;
+window.showNotification = showNotification;}

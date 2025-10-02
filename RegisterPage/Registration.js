@@ -60,7 +60,7 @@ document.getElementById("form").addEventListener("submit",function(e){
     localStorage.setItem("users", JSON.stringify(users));
 
     alert("Registration successful!");
-    window.location.href = "../home.html";
+    window.location.href = "../index.html";
 })
 
 

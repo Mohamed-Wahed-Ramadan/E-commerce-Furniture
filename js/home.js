@@ -1,35 +1,26 @@
-// Global variables
 let products = [];
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Show loading screen
     showLoadingScreen();
     
-    // Load products after a short delay to show loading animation
     setTimeout(() => {
         loadAndDisplayProducts();
         updateCartCount();
         updateCartList();
         
-        // Add scroll event listener for scroll-to-top button
         window.addEventListener('scroll', toggleScrollToTopButton);
         
-        // Add click event for scroll-to-top button
         document.getElementById('scrollToTop').addEventListener('click', scrollToTop);
         
-        // إضافة حدث للنقر على الـ overlay لإغلاق الشريحة
         const overlay = document.querySelector('.slide-overlay');
         overlay.addEventListener('click', function() {
             closeSlide();
         });
         
-        // Hide loading screen
         hideLoadingScreen();
     }, 2000);
 });
 
-// Show loading screen
 function showLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
@@ -37,7 +28,6 @@ function showLoadingScreen() {
     }
 }
 
-// Hide loading screen
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
@@ -48,7 +38,6 @@ function hideLoadingScreen() {
     }
 }
 
-// Load products from JSON file
 async function loadAndDisplayProducts() {
     try {
         const response = await fetch('./js/jsonscript.json');
@@ -59,7 +48,6 @@ async function loadAndDisplayProducts() {
         products = await response.json();
         console.log('Products loaded:', products);
         
-        // Display products by category
         displayProductsByCategory();
         
     } catch (error) {
@@ -68,21 +56,16 @@ async function loadAndDisplayProducts() {
     }
 }
 
-// Display products organized by category
 function displayProductsByCategory() {
-    // Create sections for each category
     createCategorySections();
     
-    // Group products by category
     const productsByCategory = groupProductsByCategory(products);
     
-    // Display each category
     Object.keys(productsByCategory).forEach(category => {
         displayCategoryProducts(category, productsByCategory[category]);
     });
 }
 
-// Group products by category
 function groupProductsByCategory(products) {
     return products.reduce((grouped, product) => {
         const category = product.category;
@@ -94,21 +77,17 @@ function groupProductsByCategory(products) {
     }, {});
 }
 
-// Create sections for each category
 function createCategorySections() {
     const categories = [...new Set(products.map(product => product.category))];
     const mainContent = document.querySelector('.main-content');
     
-    // Clear existing content
     mainContent.innerHTML = '';
     
     categories.forEach((category, index) => {
-        // Create new sections for categories
         createNewSection(category, mainContent);
     });
 }
 
-// Create new section for a category
 function createNewSection(category, container) {
     const sectionHTML = `
         <section class="cat-${category.toLowerCase().replace(/\s+/g, '')} sec-pro" id="${category.toLowerCase().replace(/\s+/g, '')}">
@@ -123,11 +102,9 @@ function createNewSection(category, container) {
         </section>
     `;
     
-    // Insert the new section
     container.insertAdjacentHTML('beforeend', sectionHTML);
 }
 
-// Display products for a specific category
 function displayCategoryProducts(category, categoryProducts) {
     const sectionId = category.toLowerCase().replace(/\s+/g, '');
     const section = document.getElementById(sectionId);
@@ -143,10 +120,8 @@ function displayCategoryProducts(category, categoryProducts) {
         return;
     }
     
-    // Clear existing content
     proItems.innerHTML = '';
     
-    // Create product cards
     categoryProducts.forEach(product => {
         const productCard = createProductCard(product);
         proItems.appendChild(productCard);
@@ -155,13 +130,11 @@ function displayCategoryProducts(category, categoryProducts) {
     console.log(`Displayed ${categoryProducts.length} products for category: ${category}`);
 }
 
-// Create individual product card
 function createProductCard(product) {
     const proBody = document.createElement('div');
     proBody.className = 'pro-body';
     proBody.dataset.productId = product.id;
     
-    // Calculate discounted price
     const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
     const hasDiscount = product.discount_percentage > 0;
     
@@ -196,7 +169,6 @@ function createProductCard(product) {
     return proBody;
 }
 
-// Calculate discounted price
 function calculateDiscountedPrice(originalPrice, discountPercentage) {
     if (discountPercentage > 0) {
         return Math.round(originalPrice - (originalPrice * discountPercentage / 100));
@@ -204,7 +176,6 @@ function calculateDiscountedPrice(originalPrice, discountPercentage) {
     return originalPrice;
 }
 
-// Show product details in slide format
 function showProductDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) {
@@ -212,20 +183,16 @@ function showProductDetails(productId) {
         return;
     }
     
-    // Save product details for detailed view
     localStorage.setItem('shown-product', JSON.stringify(product));
     
-    // Remove existing slide if any
     const existingSlide = document.querySelector('.show-slide');
     if (existingSlide) {
         existingSlide.remove();
     }
     
-    // Create slide element
     const slide = document.createElement('div');
     slide.className = 'show-slide';
     
-    // Calculate discounted price
     const discountedPrice = calculateDiscountedPrice(product.price, product.discount_percentage);
     
     slide.innerHTML = `
@@ -249,26 +216,20 @@ function showProductDetails(productId) {
         </div>
     `;
     
-    // Add slide to body
     document.body.appendChild(slide);
     
-    // Show overlay
     const overlay = document.querySelector('.slide-overlay');
     overlay.classList.add('active');
     
-    // Add animation for slide entrance
     setTimeout(() => {
         slide.classList.add('active');
         
-        // Scroll to top of slide when opening
         slide.scrollTop = 0;
     }, 100);
     
-    // Prevent body scroll when slide is open
     document.body.style.overflow = 'hidden';
 }
 
-// Function to close the slide
 function closeSlide() {
     const slide = document.querySelector('.show-slide');
     const overlay = document.querySelector('.slide-overlay');
@@ -286,14 +247,11 @@ function closeSlide() {
         overlay.classList.remove('active');
     }
     
-    // Restore body scroll
     document.body.style.overflow = '';
     
-    // Remove product from localStorage when closing
     localStorage.removeItem('shown-product');
 }
 
-// Increase quantity in slide
 function increaseQuantity() {
     const quantityInput = document.getElementById('slide-quantity');
     if (quantityInput) {
@@ -305,7 +263,6 @@ function increaseQuantity() {
     }
 }
 
-// Decrease quantity in slide
 function decreaseQuantity() {
     const quantityInput = document.getElementById('slide-quantity');
     if (quantityInput) {
@@ -317,7 +274,6 @@ function decreaseQuantity() {
     }
 }
 
-// Save product for detailed view in product.html
 function saveProductForDetails(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
@@ -325,7 +281,6 @@ function saveProductForDetails(productId) {
     }
 }
 
-// Add to cart from slide
 function addToCartFromSlide(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) {
@@ -333,14 +288,11 @@ function addToCartFromSlide(productId) {
         return;
     }
     
-    // Get quantity from input
     const quantityInput = document.getElementById('slide-quantity');
     const quantity = parseInt(quantityInput.value) || 1;
     
-    // Get existing cart from localStorage
     let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     
-    // Check if product already exists in cart
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -358,21 +310,16 @@ function addToCartFromSlide(productId) {
         });
     }
     
-    // Save cart to localStorage
     localStorage.setItem('shoppingCart', JSON.stringify(cart));
     
-    // Update cart UI
     updateCartCount();
     updateCartList();
     
-    // Show success message
     showNotification(`${product.name} added to cart!`);
     
-    // Close slide after adding to cart
     closeSlide();
 }
 
-// Add product to cart
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) {
@@ -380,10 +327,8 @@ function addToCart(productId) {
         return;
     }
     
-    // Get existing cart from localStorage
     let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     
-    // Check if product already exists in cart
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -401,27 +346,22 @@ function addToCart(productId) {
         });
     }
     
-    // Save cart to localStorage
     localStorage.setItem('shoppingCart', JSON.stringify(cart));
     
-    // Update cart UI
     updateCartCount();
     updateCartList();
     
-    // Show success message
     showNotification(`${product.name} added to cart!`);
     
     console.log('Product added to cart:', product.name);
 }
 
-// Update cart list display
 function updateCartList() {
     const cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     const cartList = document.querySelector('.cart-list ul');
     
     if (!cartList) return;
     
-    // Clear existing items
     cartList.innerHTML = '';
     
     if (cart.length === 0) {
@@ -429,7 +369,6 @@ function updateCartList() {
         return;
     }
     
-    // Add cart items
     cart.forEach(item => {
         const cartItem = document.createElement('li');
         cartItem.className = 'cart-item-details';
@@ -449,7 +388,6 @@ function updateCartList() {
         cartList.appendChild(cartItem);
     });
     
-    // Add total and checkout button
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const totalItem = document.createElement('li');
     totalItem.innerHTML = `
@@ -461,7 +399,6 @@ function updateCartList() {
     cartList.appendChild(totalItem);
 }
 
-// Increase quantity in cart
 function increaseCartQuantity(productId) {
     let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     const item = cart.find(item => item.id === productId);
@@ -474,7 +411,6 @@ function increaseCartQuantity(productId) {
     }
 }
 
-// Decrease quantity in cart
 function decreaseCartQuantity(productId) {
     let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     const item = cart.find(item => item.id === productId);
@@ -491,7 +427,6 @@ function decreaseCartQuantity(productId) {
     }
 }
 
-// Remove item from cart
 function removeFromCart(productId) {
     let cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     cart = cart.filter(item => item.id !== productId);
@@ -502,7 +437,6 @@ function removeFromCart(productId) {
     showNotification('Item removed from cart');
 }
 
-// Update cart count in navbar
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem('shoppingCart') || '[]');
     const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -513,9 +447,7 @@ function updateCartCount() {
     }
 }
 
-// Show notification
 function showNotification(message) {
-    // Create notification element
     const notification = document.createElement('div');
     notification.style.cssText = `
         position: fixed;
@@ -533,15 +465,12 @@ function showNotification(message) {
     `;
     notification.textContent = message;
     
-    // Add to body
     document.body.appendChild(notification);
     
-    // Animate in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
     
-    // Remove after 3 seconds
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
@@ -552,7 +481,6 @@ function showNotification(message) {
     }, 3000);
 }
 
-// Show error message
 function showErrorMessage(message) {
     const mainContent = document.querySelector('.main-content');
     if (mainContent) {
@@ -575,7 +503,6 @@ function showErrorMessage(message) {
     }
 }
 
-// Toggle scroll to top button visibility
 function toggleScrollToTopButton() {
     const scrollToTopBtn = document.getElementById('scrollToTop');
     if (window.scrollY > 300) {
@@ -585,7 +512,6 @@ function toggleScrollToTopButton() {
     }
 }
 
-// Scroll to top function
 function scrollToTop() {
     window.scrollTo({
         top: 0,
@@ -593,7 +519,6 @@ function scrollToTop() {
     });
 }
 
-// Export functions for global access
 window.addToCart = addToCart;
 window.showProductDetails = showProductDetails;
 window.addToCartFromSlide = addToCartFromSlide;

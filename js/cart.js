@@ -1,4 +1,3 @@
-// cart.js - Updated version
 
 document.addEventListener("DOMContentLoaded", function () {
     loadCartItems();
@@ -6,11 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function loadCartItems() {
-    // Get cart from localStorage
     const cart = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
     const tbody = document.querySelector("tbody");
     
-    // Clear existing rows
     tbody.innerHTML = "";
     
     if (cart.length === 0) {
@@ -28,7 +25,6 @@ function loadCartItems() {
         return;
     }
     
-    // Display each item in cart
     cart.forEach(item => {
         displayCartItem(item);
     });
@@ -56,18 +52,15 @@ function displayCartItem(item) {
     
     tbody.appendChild(row);
     
-    // Add event listener for direct input changes
     const qtyInput = row.querySelector(".quantity-input");
     qtyInput.addEventListener("change", function () {
         let quantity = parseInt(qtyInput.value, 10) || 1;
         
-        // Ensure minimum quantity is 1
         if (quantity < 1) {
             quantity = 1;
             qtyInput.value = 1;
         }
         
-        // Ensure maximum quantity is reasonable
         if (quantity > 100) {
             quantity = 100;
             qtyInput.value = 100;
@@ -85,12 +78,11 @@ function updateItemQuantity(productId, quantity) {
         item.quantity = quantity;
         localStorage.setItem("shoppingCart", JSON.stringify(cart));
         
-        // Update display
         const subtotalCell = document.querySelector(`#qty-${productId}`).closest("tr").querySelector(".subtotal");
         subtotalCell.textContent = `${(item.price * quantity).toFixed(2)} EGP`;
         
         updateCartSummary();
-        updateCartCount(); // Update navbar count
+        updateCartCount(); 
     }
 }
 
@@ -121,11 +113,9 @@ function removeItem(productId) {
     cart = cart.filter(item => item.id !== productId);
     localStorage.setItem("shoppingCart", JSON.stringify(cart));
     
-    // Reload cart items
     loadCartItems();
-    updateCartCount(); // Update navbar count
+    updateCartCount(); 
     
-    // Show notification
     if (typeof showNotification === 'function') {
         showNotification('Item removed from cart');
     }
@@ -137,32 +127,27 @@ function updateCartSummary() {
     let subtotal = 0;
     let totalDiscount = 0;
     
-    // Calculate subtotal and total discount
     cart.forEach(item => {
         const itemSubtotal = item.price * item.quantity;
         subtotal += itemSubtotal;
         
-        // Calculate discount if there's an original price higher than current price
         if (item.originalPrice && item.originalPrice > item.price) {
             const itemDiscount = (item.originalPrice - item.price) * item.quantity;
             totalDiscount += itemDiscount;
         }
     });
     
-    // Apply additional discount if subtotal >= 500
     const additionalDiscount = subtotal >= 500 ? 50 : 0;
     totalDiscount += additionalDiscount;
     
     const total = subtotal - totalDiscount;
     
-    // Update summary display
     document.getElementById("subtotal").textContent = subtotal.toFixed(2) + " EGP";
     
     if (totalDiscount > 0) {
         document.getElementById("discount").textContent = "-" + totalDiscount.toFixed(2) + " EGP";
         document.getElementById("discount").style.color = "green";
         
-        // Show discount breakdown if needed
         if (additionalDiscount > 0) {
             document.getElementById("discount").title = `Includes ${additionalDiscount} EGP special discount`;
         }
@@ -173,7 +158,6 @@ function updateCartSummary() {
     
     document.getElementById("total").textContent = total.toFixed(2) + " EGP";
     
-    // Update checkout button state
     const checkoutBtn = document.querySelector(".checkout-btn");
     if (cart.length === 0) {
         checkoutBtn.disabled = true;
@@ -189,28 +173,21 @@ function updateCartSummary() {
 }
 
 function logout() {
-    // Check if user is already a guest
     if (currentUser.name === "Guest") {
-        // Just redirect to login page without clearing data or showing notification
         window.location.href = "./Loginpage/Login.html";
         return;
     }
     
-    // For registered users: clear data and show notification
-    // Clear all localStorage data except dark mode preference
     const darkModePreference = localStorage.getItem('darkMode');
     localStorage.clear();
     
-    // Restore dark mode preference
     if (darkModePreference) {
         localStorage.setItem('darkMode', darkModePreference);
     }
     
-    // Reset user to guest
     currentUser = { name: "Guest" };
     updateUserName();
     
-    // Close user dropdown
     const userCheckbox = document.getElementById("user");
     if (userCheckbox) {
         userCheckbox.checked = false;
@@ -218,17 +195,14 @@ function logout() {
     
     showNotification("Logged out successfully - Redirecting to login...");
     
-    // Update cart to reflect it's empty
     updateCartCount();
     updateCartList();
     
-    // Redirect to login page after a short delay
     setTimeout(() => {
         window.location.href = "./Loginpage/Login.html";
     }, 1500);
 }
 
-// Modified checkout function for cart.js
 function setupCheckoutModal() {
     const checkoutBtn = document.querySelector(".checkout-btn");
     const modal = document.getElementById("success-modal");
@@ -247,39 +221,32 @@ function setupCheckoutModal() {
             return;
         }
         
-        // Check if user is guest
         const currentUser = window.currentUser || { name: "Guest" };
         if (currentUser.name === "Guest") {
             if (typeof showNotification === 'function') {
                 showNotification("Please login to proceed with checkout");
             }
             
-            // Redirect to login page after short delay
             setTimeout(() => {
                 window.location.href = "./Loginpage/Login.html";
             }, 1500);
             return;
         }
         
-        // Show checkout confirmation modal for logged-in users
         modal.style.display = "flex";
     });
     
     okBtn.addEventListener("click", function () {
-        // Clear the cart
         localStorage.removeItem("shoppingCart");
         
-        // Update navbar count
         if (typeof updateCartCount === 'function') {
             updateCartCount();
         }
         
-        // Show success message
         if (typeof showNotification === 'function') {
             showNotification("Order placed successfully! Thank you for shopping with us.");
         }
         
-        // Redirect to home page
         setTimeout(() => {
             window.location.href = "index.html";
         }, 1000);
@@ -289,7 +256,6 @@ function setupCheckoutModal() {
         modal.style.display = "none";
     });
     
-    // Close modal when clicking outside
     window.addEventListener("click", function (event) {
         if (event.target === modal) {
             modal.style.display = "none";
@@ -297,7 +263,6 @@ function setupCheckoutModal() {
     });
 }
 
-// Update cart count in navbar (if function exists in main.js)
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("shoppingCart") || "[]");
     const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -308,10 +273,8 @@ function updateCartCount() {
     }
 }
 
-// Fallback notification function if not available in main.js
 if (typeof showNotification === 'undefined') {
     window.showNotification = function(message) {
-        // Create simple notification
         const notification = document.createElement("div");
         notification.style.cssText = `
             position: fixed;
@@ -338,7 +301,7 @@ if (typeof showNotification === 'undefined') {
     };
 }
 
-// Make functions available globally
+
 window.increaseQuantity = increaseQuantity;
 window.decreaseQuantity = decreaseQuantity;
 window.removeItem = removeItem;
